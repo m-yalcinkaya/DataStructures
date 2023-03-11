@@ -10,36 +10,41 @@ struct node{
 };
 
 void deleteNode(struct node** head, int data){
+
     if((*head)->data == data){
         
         struct node* temp = (*head);
         (*head) = (*head)->next;
         temp->next = NULL;
-        free(temp);
-        
-    }else{
+        free(temp);  
+    }
+
+    else{
         
         struct node* temp = (*head);
         while(temp->next != NULL && temp->next->data != data) temp = temp -> next;
         if(temp->next == NULL) {
+            
             cout << " The item you were looking for was not found  :  " << data << endl;
             return;
         }
         else if(temp->next->data == data){
             if(temp->next->next == NULL){
+
                 free(temp->next);
                 temp->next = NULL;
+
             }
             else{
+
                 struct node* temp2 = temp->next;
                 temp->next = temp2->next;
                 temp2->next = NULL;
                 free(temp2);
+
             }
         }
-        
     }
-    
 }
 
 
@@ -54,7 +59,9 @@ void addNode(struct node** head, int data){
         temp = NULL;
         free(temp);
         
-    }else{
+    }
+
+    else{
         
         struct node* iter = (*head);
         while(iter -> next != NULL) iter = iter -> next;
@@ -67,16 +74,31 @@ void addNode(struct node** head, int data){
     }
 }
 
+void updateNode(struct node* head, int data){
+    
+    int reguestedData;
+    struct node* temp = head;
+    while(temp->data != data) temp = temp->next;
+    cout << "enter the data you wanted : ";
+    cin >> reguestedData;
+    temp->data = reguestedData;
+    temp = NULL;
+    free(temp);
+
+}
+
 void print(struct node* head){
+
     cout << endl;
     while(head != NULL) {
         cout << head->data << " ";
         head = head->next;
+
     }
 }
 
-int main()
-{
+int main(){
+
     struct node* head = NULL;
     addNode(&head, 10);
     addNode(&head, 20);
@@ -86,6 +108,8 @@ int main()
     addNode(&head, 100);
     deleteNode(&head, 110);
     deleteNode(&head, 120);
+    updateNode(head, 10);
+    updateNode(head, 50);
     
     print(head);
 
