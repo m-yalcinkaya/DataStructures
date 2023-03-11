@@ -10,41 +10,36 @@ struct node{
 };
 
 void deleteNode(struct node** head, int data){
-
     if((*head)->data == data){
         
         struct node* temp = (*head);
         (*head) = (*head)->next;
         temp->next = NULL;
-        free(temp);  
-    }
-
-    else{
+        free(temp);
+        
+    }else{
         
         struct node* temp = (*head);
         while(temp->next != NULL && temp->next->data != data) temp = temp -> next;
         if(temp->next == NULL) {
-            
             cout << " The item you were looking for was not found  :  " << data << endl;
             return;
         }
         else if(temp->next->data == data){
             if(temp->next->next == NULL){
-
                 free(temp->next);
                 temp->next = NULL;
-
             }
             else{
-
                 struct node* temp2 = temp->next;
                 temp->next = temp2->next;
                 temp2->next = NULL;
                 free(temp2);
-
             }
         }
+        
     }
+    
 }
 
 
@@ -60,7 +55,6 @@ void addNode(struct node** head, int data){
         free(temp);
         
     }
-
     else{
         
         struct node* iter = (*head);
@@ -84,21 +78,31 @@ void updateNode(struct node* head, int data){
     temp->data = reguestedData;
     temp = NULL;
     free(temp);
+}
 
+void searchNode(struct node* head, int data){
+    
+    int nodeCounter = 1; 
+    struct node* temp = head;
+    while(temp->next != NULL && temp->data != data) {
+        temp = temp->next;
+        nodeCounter++;
+    }
+    if(temp->next == NULL) cout << "The item you were looking for was not found" << endl;
+    else if(temp->data == data) cout << "The item you were looking for was found : " << "Node : " << nodeCounter << endl;
+    
 }
 
 void print(struct node* head){
-
     cout << endl;
     while(head != NULL) {
         cout << head->data << " ";
         head = head->next;
-
     }
 }
 
-int main(){
-
+int main()
+{
     struct node* head = NULL;
     addNode(&head, 10);
     addNode(&head, 20);
@@ -110,6 +114,7 @@ int main(){
     deleteNode(&head, 120);
     updateNode(head, 10);
     updateNode(head, 50);
+    searchNode(head,78);
     
     print(head);
 
