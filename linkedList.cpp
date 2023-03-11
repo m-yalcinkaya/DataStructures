@@ -17,7 +17,8 @@ void deleteNode(struct node** head, int data){
         temp->next = NULL;
         free(temp);
         
-    }else{
+    }
+    else{
         
         struct node* temp = (*head);
         while(temp->next != NULL && temp->next->data != data) temp = temp -> next;
@@ -37,9 +38,7 @@ void deleteNode(struct node** head, int data){
                 free(temp2);
             }
         }
-        
     }
-    
 }
 
 
@@ -72,7 +71,11 @@ void updateNode(struct node* head, int data){
     
     int reguestedData;
     struct node* temp = head;
-    while(temp->data != data) temp = temp->next;
+    while(temp->data != data && temp->next != NULL) temp = temp->next;
+    if(temp->next == NULL && temp->data != data){
+        cout << "The item you wanted to update was not found" << endl;
+        return;
+    }
     cout << "enter the data you wanted : ";
     cin >> reguestedData;
     temp->data = reguestedData;
@@ -88,8 +91,36 @@ void searchNode(struct node* head, int data){
         temp = temp->next;
         nodeCounter++;
     }
-    if(temp->next == NULL) cout << "The item you were looking for was not found" << endl;
-    else if(temp->data == data) cout << "The item you were looking for was found : " << "Node : " << nodeCounter << endl;
+    if(temp->data == data) cout << "The item you were looking for was found : " << "Node : " << nodeCounter << endl;
+    else if(temp->next == NULL) cout << "The item you were looking for was not found" << endl;
+    
+}
+
+void sortLinkedList(struct node* head){
+    
+    
+    struct node* temp = head;
+    struct node* temp2 = head;
+    while(true){
+        
+        int minData = temp->data;
+        temp2 = temp;
+    
+        while(temp->next != NULL){
+            temp = temp->next;
+            if(temp->data < minData){
+                minData = temp->data;
+            }
+        }
+        temp = temp2;
+        while(temp -> data != minData) temp = temp->next; 
+        int tempData = temp2->data;
+        temp2->data = minData;
+        temp->data = tempData;
+        if(temp2->next != NULL) temp = temp2->next;
+        else break;
+        
+    }
     
 }
 
@@ -104,17 +135,16 @@ void print(struct node* head){
 int main()
 {
     struct node* head = NULL;
-    addNode(&head, 10);
-    addNode(&head, 20);
-    addNode(&head, 30);
-    addNode(&head, 40);
+    addNode(&head, 780);
+    addNode(&head, 15);
+    addNode(&head, 90);
+    addNode(&head, 17);
     addNode(&head, 50);
     addNode(&head, 100);
-    deleteNode(&head, 110);
-    deleteNode(&head, 120);
-    updateNode(head, 10);
-    updateNode(head, 50);
-    searchNode(head,78);
+    deleteNode(&head, 100);
+    updateNode(head, 12);
+    searchNode(head, 15);
+    sortLinkedList(head);
     
     print(head);
 
